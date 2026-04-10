@@ -40,6 +40,14 @@ class FilterApp:
 
         tk.Button(self.root, text="Start Filtering", command=self._run, bg="lightblue").grid(row=4, column=1, pady=15)
 
+    def _browse_in(self):
+        path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")])
+        if path: self.in_path.set(path)
+
+    def _browse_out(self):
+        path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
+        if path: self.out_path.set(path)
+
     def _run(self):
         if not self.in_path.get() or not self.out_path.get() or not self.keyword.get():
             messagebox.showerror("Error", "Please fill all fields.")
