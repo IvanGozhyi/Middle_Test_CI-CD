@@ -39,3 +39,23 @@ class FilterApp:
         tk.Checkbutton(options_frame, text="Use Regex", variable=self.use_regex).pack(side="left")
 
         tk.Button(self.root, text="Start Filtering", command=self._run, bg="lightblue").grid(row=4, column=1, pady=15)
+
+    def _run(self):
+        if not self.in_path.get() or not self.out_path.get() or not self.keyword.get():
+            messagebox.showerror("Error", "Please fill all fields.")
+            return
+
+        try:
+            if self.use_regex.get():
+                matcher = RegexMatcher(self.keyword.get(), self.ignore_case.get())
+            else:
+                matcher = ExactMatcher(self.keyword.get(), self.ignore_case.get())
+
+            processor = FileProcessor(Path(self.in_path.get()), Path(self.out_path.get()), matcher)
+            total, found = processor.process()
+
+            messagebox.showinfo("Success", f"Done!\nChecked: {total} lines\nFound: {found} matches")
+        except re.error:
+            messagebox.showerror("Regex Error", "Invalid Regular Expression.")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
