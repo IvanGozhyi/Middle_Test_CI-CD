@@ -20,3 +20,22 @@ class FilterApp:
         self.use_regex = tk.BooleanVar()
 
         self._build_ui()
+
+    def _build_ui(self):
+        tk.Label(self.root, text="Input File:").grid(row=0, column=0, sticky="w", padx=10, pady=5)
+        tk.Entry(self.root, textvariable=self.in_path, width=35).grid(row=0, column=1)
+        tk.Button(self.root, text="Browse", command=self._browse_in).grid(row=0, column=2, padx=5)
+
+        tk.Label(self.root, text="Output File:").grid(row=1, column=0, sticky="w", padx=10, pady=5)
+        tk.Entry(self.root, textvariable=self.out_path, width=35).grid(row=1, column=1)
+        tk.Button(self.root, text="Browse", command=self._browse_out).grid(row=1, column=2, padx=5)
+
+        tk.Label(self.root, text="Keyword/Regex:").grid(row=2, column=0, sticky="w", padx=10, pady=5)
+        tk.Entry(self.root, textvariable=self.keyword, width=35).grid(row=2, column=1)
+
+        options_frame = tk.Frame(self.root)
+        options_frame.grid(row=3, column=1, sticky="w", pady=5)
+        tk.Checkbutton(options_frame, text="Ignore Case", variable=self.ignore_case).pack(side="left")
+        tk.Checkbutton(options_frame, text="Use Regex", variable=self.use_regex).pack(side="left")
+
+        tk.Button(self.root, text="Start Filtering", command=self._run, bg="lightblue").grid(row=4, column=1, pady=15)
